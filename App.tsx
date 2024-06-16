@@ -1,4 +1,5 @@
-import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import React, {useState} from 'react';
 import {
   Button,
   SafeAreaView,
@@ -8,14 +9,13 @@ import {
   View,
 } from 'react-native';
 
+import AuthStackNavigator from './src/navigation/AuthStackNavigator';
+
 function App(): React.JSX.Element {
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.inputContainer}>
-        <TextInput style={styles.input} />
-        <Text>이름</Text>
-      </View>
-    </SafeAreaView>
+    <NavigationContainer>
+      <AuthStackNavigator />
+    </NavigationContainer>
   );
 }
 
