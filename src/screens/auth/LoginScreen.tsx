@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import React, {useRef} from 'react';
+import {SafeAreaView, StyleSheet, TextInput, View} from 'react-native';
 import InputField from '../../components/InputField';
 import CustomButton from '../../components/customButton';
 import useForm from '../../hooks/useForm';
@@ -16,6 +16,7 @@ function LoginScreen({}: LoginScreenProps) {
   // const handleChangePassword = (text: string) => {
   //   setPassword(text);
   // };
+  const passwordRef = useRef<TextInput | null>(null);
   const login = useForm({
     initialValue: {email: '', password: ''},
     validate: validateLogin,
@@ -28,20 +29,28 @@ function LoginScreen({}: LoginScreenProps) {
     <SafeAreaView style={styles.container}>
       <View style={styles.inputContainer}>
         <InputField
+          autoFocus
           placeholder="이메일"
-          error={'이메일을 입력해주세요'}
+          error={login.errors.email}
           touched={login.touched.email}
           inputMode="email"
           // value={values.email}
           // onChangeText={text => handleChangeText('email', text)}
           // onBlur={() => handleBlur('email')}
+          returnKeyType="next" //키보드가 enter가 next로 바뀜
+          blurOnSubmit={false} //enter 눌러도 키보드가 안닫힘
+          onSubmitEditing={() => passwordRef.current?.focus()} //이메일을 입력 한뒤에 비밀번호로 포커스 자동이동
           {...login.getTextInputProps('email')}
         />
         <InputField
+          ref={passwordRef}
           placeholder="비밀번호"
-          error={'비밀번호를 입력해주세요'}
+          error={login.errors.password}
           touched={login.touched.password}
           secureTextEntry
+          returnKeyType="join"
+          blurOnSubmit={false} //enter 눌러도 키보드가 안닫힘
+          onSubmitEditing={handleSubmit} //비밀번호 누르고 join을 누르면 자동으로 로그인 버튼으로 포커스 이동되면서 버튼이 눌러짐
           {...login.getTextInputProps('password')}
         />
       </View>
