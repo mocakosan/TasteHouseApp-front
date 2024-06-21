@@ -1,4 +1,3 @@
-import axios from 'axios';
 import axiosInstance from './axios';
 import {Category, Profile} from '../types/domain';
 import {getEncryptStorage} from '../utils';
