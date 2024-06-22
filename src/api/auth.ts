@@ -29,6 +29,7 @@ const postLogin = async ({
     email,
     password,
   });
+  console.log('asdfasdf', data);
 
   return data;
 };
