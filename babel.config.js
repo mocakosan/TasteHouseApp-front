@@ -1,4 +1,15 @@
 module.exports = {
   presets: ['module:@react-native/babel-preset'],
-  plugins: ['react-native-reanimated/plugin'],
+  plugins: [
+    'react-native-reanimated/plugin',
+    [
+      //절대경로 만드는법 yarn add --dev babel-plugin-module-resolver
+      'module-resolver',
+      {
+        alias: {
+          '@': './src',
+        },
+      },
+    ],
+  ],
 };
