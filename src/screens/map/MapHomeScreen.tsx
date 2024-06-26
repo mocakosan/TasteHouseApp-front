@@ -1,6 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
-import useAuth from '@/hooks/queries/useAuth';
+import {Alert, Pressable, StyleSheet, View} from 'react-native';
 import MapView, {
   Callout,
   LatLng,
@@ -8,7 +7,7 @@ import MapView, {
   Marker,
   PROVIDER_GOOGLE,
 } from 'react-native-maps';
-import {colors} from '@/constants';
+import {alerts, colors, mapNavigations} from '@/constants';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -28,11 +27,10 @@ type Navigation = CompositeNavigationProp<
 
 function MapHomeScreen() {
   const inset = useSafeAreaInsets();
-  const {logoutMutation} = useAuth();
   const navigation = useNavigation<Navigation>();
   const {useLocation, isUserLocationError} = useUserLocation();
   const mapRef = useRef<MapView | null>(null);
-  const [selectLocation, setSelectLocation] = useState<LatLng>();
+  const [selectLocation, setSelectLocation] = useState<LatLng | null>();
 
   const handlePressUserLocation = () => {
     if (isUserLocationError) {
@@ -47,6 +45,20 @@ function MapHomeScreen() {
   };
   const handleLongPressMapview = ({nativeEvent}: LongPressEvent) => {
     setSelectLocation(nativeEvent.coordinate);
+  };
+
+  const handlePressAddPost = () => {
+    if (!selectLocation) {
+      return Alert.alert(
+        alerts.NOT_SELECTED_LOCATION.TITLE,
+        alerts.NOT_SELECTED_LOCATION.DESCRIPTION,
+      );
+    }
+
+    navigation.navigate(mapNavigations.ADD_POST, {
+      location: selectLocation,
+    });
+    setSelectLocation(null);
   };
 
   return (
@@ -77,6 +89,9 @@ function MapHomeScreen() {
         <Ionicons name="menu" color={colors.WHITE} size={25} />
       </Pressable>
       <View style={styles.buttonList}>
+        <Pressable style={styles.mapButton} onPress={handlePressAddPost}>
+          <MaterialIcons name="add" color={colors.WHITE} size={25} />
+        </Pressable>
         <Pressable style={styles.mapButton} onPress={handlePressUserLocation}>
           <MaterialIcons name="my-location" color={colors.WHITE} size={25} />
         </Pressable>
