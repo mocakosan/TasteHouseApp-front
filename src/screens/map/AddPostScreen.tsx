@@ -2,11 +2,13 @@ import AddPostHeaderRight from '@/components/AddPostHeaderRight';
 import InputField from '@/components/InputField';
 import CustomButton from '@/components/customButton';
 import {colors, mapNavigations} from '@/constants';
+import useMutateCreatePost from '@/hooks/queries/useMutateCreatePost';
 import useForm from '@/hooks/useForm';
 import {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
+import {MarkerColor} from '@/types';
 import {validateAddPost} from '@/utils';
 import {StackScreenProps} from '@react-navigation/stack';
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -25,6 +27,7 @@ type AddPostScreenProps = StackScreenProps<
 function AddPostScreen({route, navigation}: AddPostScreenProps) {
   const {location} = route.params;
   const discriptionRef = useRef<TextInput | null>(null);
+  const createPost = useMutateCreatePost();
   const addPost = useForm({
     initialValue: {
       title: '',
@@ -32,9 +35,26 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
     },
     validate: validateAddPost,
   });
+  const [markerColor, setMarkerColor] = useState<MarkerColor>('RED');
+  const [score, setScore] = useState(5);
+  const [address, setAdress] = useState('');
 
   const handleSubmit = () => {
-    //
+    console.log('postTest');
+    const body = {
+      date: new Date(),
+      title: addPost.values.title,
+      description: addPost.values.description,
+      color: markerColor,
+      score,
+      imageUris: [],
+    };
+    createPost.mutate(
+      {address, ...location, ...body},
+      {
+        onSuccess: () => navigation.goBack(),
+      },
+    );
   };
 
   useEffect(() => {
