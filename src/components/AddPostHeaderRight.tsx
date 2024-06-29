@@ -1,4 +1,3 @@
-import React from 'react';
 import HeaderButton from './HeaderButton';
 
 function AddPostHeaderRight(onSubmit: () => void) {

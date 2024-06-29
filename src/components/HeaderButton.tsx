@@ -1,6 +1,7 @@
-import {colors} from '@/constants';
 import React, {ReactNode} from 'react';
-import {Pressable, PressableProps, StyleSheet, Text, View} from 'react-native';
+import {Pressable, PressableProps, StyleSheet, Text} from 'react-native';
+
+import {colors} from '@/constants';
 
 interface HeaderButtonProps extends PressableProps {
   labelText?: string;
@@ -8,9 +9,14 @@ interface HeaderButtonProps extends PressableProps {
   hasError?: boolean;
 }
 
-function HeaderButton({labelText, hasError = false, icon}: HeaderButtonProps) {
+function HeaderButton({
+  labelText,
+  icon,
+  hasError = false,
+  ...props
+}: HeaderButtonProps) {
   return (
-    <Pressable disabled={hasError} style={styles.container}>
+    <Pressable disabled={hasError} style={styles.container} {...props}>
       {!labelText && icon}
       {!icon && labelText && (
         <Text style={[styles.text, hasError && styles.textError]}>
