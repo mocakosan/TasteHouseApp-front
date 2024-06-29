@@ -24,7 +24,11 @@ const categoryList: MarkerColor[] = [
   'PURPLE',
 ];
 
-function MarkerSelector({markerColor}: MarkerSelectorProps) {
+function MarkerSelector({
+  markerColor,
+  onPressMarker,
+  score = 5,
+}: MarkerSelectorProps) {
   return (
     <View style={styles.container}>
       <Text style={styles.markerLabel}>마커 선택</Text>
@@ -36,8 +40,9 @@ function MarkerSelector({markerColor}: MarkerSelectorProps) {
                 style={[
                   styles.markerBox,
                   markerColor === color && styles.pressedMarker,
-                ]}>
-                <CustomMarker color={color} />
+                ]}
+                onPress={() => onPressMarker(color)}>
+                <CustomMarker color={color} score={score} />
               </Pressable>
             );
           })}

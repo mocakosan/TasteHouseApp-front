@@ -1,6 +1,7 @@
 import AddPostHeaderRight from '@/components/AddPostHeaderRight';
 import InputField from '@/components/InputField';
 import MarkerSelector from '@/components/MarkerSelector';
+import ScoreInput from '@/components/ScoreInput';
 import CustomButton from '@/components/customButton';
 import {colors, mapNavigations} from '@/constants';
 import useMutateCreatePost from '@/hooks/queries/useMutateCreatePost';
@@ -40,6 +41,14 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
   });
   const [markerColor, setMarkerColor] = useState<MarkerColor>('RED');
   const [score, setScore] = useState(5);
+
+  const handleSelectMarker = (name: MarkerColor) => {
+    setMarkerColor(name);
+  };
+
+  const handleChangeScore = (value: number) => {
+    setScore(value);
+  };
 
   const handleSubmit = () => {
     console.log('postTest1234');
@@ -97,7 +106,11 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
             returnKeyType="next"
             {...addPost.getTextInputProps('description')}
           />
-          <MarkerSelector />
+          <MarkerSelector
+            markerColor={markerColor}
+            onPressMarker={handleSelectMarker}
+          />
+          <ScoreInput score={score} onChangeScore={handleChangeScore} />
         </View>
       </ScrollView>
     </SafeAreaView>
