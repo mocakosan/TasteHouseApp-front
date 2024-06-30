@@ -37,6 +37,7 @@ function MarkerSelector({
           {categoryList.map(color => {
             return (
               <Pressable
+                key={color}
                 style={[
                   styles.markerBox,
                   markerColor === color && styles.pressedMarker,
