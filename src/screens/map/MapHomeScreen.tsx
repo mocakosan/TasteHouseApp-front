@@ -20,6 +20,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import mapStyle from '@/style/mapStyle';
 import CustomMarker from '@/components/customMarker';
 import useGetMarkers from '@/hooks/queries/useGetMarkers';
+import MarkerModal from '@/components/MarkerModal';
+import useModal from '@/hooks/useModal';
 
 type Navigation = CompositeNavigationProp<
   StackNavigationProp<MapStackParamList>,
@@ -32,18 +34,31 @@ function MapHomeScreen() {
   const {useLocation, isUserLocationError} = useUserLocation();
   const mapRef = useRef<MapView | null>(null);
   const [selectLocation, setSelectLocation] = useState<LatLng | null>();
+  const [markerId, setMarkerId] = useState<number | null>(null);
   const {data: markers = []} = useGetMarkers();
-  const handlePressUserLocation = () => {
-    if (isUserLocationError) {
-      return;
-    }
+  const markModal = useModal();
+
+  const moveMapView = (coordinate: LatLng) => {
     mapRef.current?.animateToRegion({
-      latitude: useLocation.latitude,
-      longitude: useLocation.longitude,
+      ...coordinate,
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
     });
   };
+
+  const handlePressMarker = (id: number, coordinate: LatLng) => {
+    moveMapView(coordinate);
+    setMarkerId(id);
+    markModal.show();
+  };
+
+  const handlePressUserLocation = () => {
+    if (isUserLocationError) {
+      return;
+    }
+    moveMapView(useLocation);
+  };
+
   const handleLongPressMapview = ({nativeEvent}: LongPressEvent) => {
     setSelectLocation(nativeEvent.coordinate);
   };
@@ -84,6 +99,7 @@ function MapHomeScreen() {
             color={color}
             score={score}
             coordinate={coordinate}
+            onPress={() => handlePressMarker(id, coordinate)}
           />
         ))}
         {/* <CustomMarker
@@ -110,6 +126,11 @@ function MapHomeScreen() {
           <MaterialIcons name="my-location" color={colors.WHITE} size={25} />
         </Pressable>
       </View>
+      <MarkerModal
+        markerId={markerId}
+        isVisible={markModal.isVisible}
+        hide={markModal.hide}
+      />
     </>
   );
 }
