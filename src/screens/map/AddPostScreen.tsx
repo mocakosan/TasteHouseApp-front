@@ -1,13 +1,16 @@
 import AddPostHeaderRight from '@/components/AddPostHeaderRight';
 import DatePickerOption from '@/components/DatePickerOption';
+import ImageInput from '@/components/ImageInput';
 import InputField from '@/components/InputField';
 import MarkerSelector from '@/components/MarkerSelector';
+import PreviewImageList from '@/components/PreviewImageList';
 import ScoreInput from '@/components/ScoreInput';
 import CustomButton from '@/components/customButton';
 import {colors, mapNavigations} from '@/constants';
 import useMutateCreatePost from '@/hooks/queries/useMutateCreatePost';
 import useForm from '@/hooks/useForm';
 import useGetAddress from '@/hooks/useGetAddress';
+import useImagePicker from '@/hooks/useImagePicker';
 import useModal from '@/hooks/useModal';
 import {MapStackParamList} from '@/navigations/stack/MapStackNavigator';
 import {MarkerColor} from '@/types';
@@ -18,7 +21,6 @@ import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  Text,
   TextInput,
   View,
 } from 'react-native';
@@ -45,8 +47,10 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
   const [isPicked, setIsPicked] = useState(false);
   const [markerColor, setMarkerColor] = useState<MarkerColor>('RED');
   const [score, setScore] = useState(5);
-  const [isVisible, setIsVisible] = useState(false);
   const datePickerModal = useModal();
+  const imagePicker = useImagePicker({
+    initialImages: [],
+  });
 
   const handleConfirmDate = () => {
     setIsPicked(true);
@@ -132,6 +136,14 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
             onPressMarker={handleSelectMarker}
           />
           <ScoreInput score={score} onChangeScore={handleChangeScore} />
+          <View style={styles.imagesViewer}>
+            <ImageInput onChange={imagePicker.handleChange} />
+            <PreviewImageList
+              imageUris={imagePicker.imageUris}
+              onDelete={imagePicker.delete}
+              onChangeOrder={imagePicker.changeOrder}
+            />
+          </View>
           <DatePickerOption
             date={date}
             isVisible={datePickerModal.isVisible}
@@ -152,6 +164,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   inputContainer: {gap: 20, marginBottom: 20},
+  imagesViewer: {
+    flexDirection: 'row',
+  },
 });
 
 export default AddPostScreen;
