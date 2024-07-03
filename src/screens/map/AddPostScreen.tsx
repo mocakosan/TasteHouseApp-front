@@ -91,6 +91,7 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
       headerRight: () => AddPostHeaderRight(handleSubmit),
     });
   });
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.contentContainer}>
