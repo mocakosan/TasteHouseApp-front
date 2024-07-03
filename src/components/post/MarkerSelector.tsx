@@ -7,9 +7,9 @@ import {
   Text,
   View,
 } from 'react-native';
-import CustomMarker from './customMarker';
 import {colors} from '@/constants';
 import {MarkerColor} from '@/types';
+import CustomMarker from '../common/customMarker';
 
 interface MarkerSelectorProps extends PressableProps {
   markerColor: MarkerColor;

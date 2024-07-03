@@ -1,11 +1,7 @@
-import AddPostHeaderRight from '@/components/AddPostHeaderRight';
-import DatePickerOption from '@/components/DatePickerOption';
-import ImageInput from '@/components/ImageInput';
-import InputField from '@/components/InputField';
-import MarkerSelector from '@/components/MarkerSelector';
-import PreviewImageList from '@/components/PreviewImageList';
-import ScoreInput from '@/components/ScoreInput';
-import CustomButton from '@/components/customButton';
+import DatePickerOption from '@/components/post/DatePickerOption';
+import ImageInput from '@/components/post/ImageInput';
+import PreviewImageList from '@/components/common/PreviewImageList';
+import ScoreInput from '@/components/post/ScoreInput';
 import {colors, mapNavigations} from '@/constants';
 import useMutateCreatePost from '@/hooks/queries/useMutateCreatePost';
 import useForm from '@/hooks/useForm';
@@ -25,6 +21,10 @@ import {
   View,
 } from 'react-native';
 import Octicons from 'react-native-vector-icons/Octicons';
+import InputField from '@/components/common/InputField';
+import CustomButton from '@/components/common/customButton';
+import AddPostHeaderRight from '@/components/post/AddPostHeaderRight';
+import MarkerSelector from '@/components/post/MarkerSelector';
 
 type AddPostScreenProps = StackScreenProps<
   MapStackParamList,
@@ -142,6 +142,7 @@ function AddPostScreen({route, navigation}: AddPostScreenProps) {
               imageUris={imagePicker.imageUris}
               onDelete={imagePicker.delete}
               onChangeOrder={imagePicker.changeOrder}
+              showOption
             />
           </View>
           <DatePickerOption

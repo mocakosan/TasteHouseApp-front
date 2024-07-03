@@ -12,10 +12,11 @@ import {
   Text,
   View,
 } from 'react-native';
-import CustomMarker from './customMarker';
+
 import Octicons from 'react-native-vector-icons/Octicons';
 import {getDateWithSeparator} from '@/utils';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import CustomMarker from '../common/customMarker';
 
 interface MarkerModalProps {
   markerId: number | null;

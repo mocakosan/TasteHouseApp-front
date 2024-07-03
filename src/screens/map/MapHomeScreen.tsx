@@ -18,10 +18,10 @@ import useUserLocation from '@/hooks/queries/useUserLocation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import mapStyle from '@/style/mapStyle';
-import CustomMarker from '@/components/customMarker';
+import CustomMarker from '@/components/common/customMarker';
 import useGetMarkers from '@/hooks/queries/useGetMarkers';
-import MarkerModal from '@/components/MarkerModal';
 import useModal from '@/hooks/useModal';
+import MarkerModal from '@/components/map/MarkerModal';
 
 type Navigation = CompositeNavigationProp<
   StackNavigationProp<MapStackParamList>,

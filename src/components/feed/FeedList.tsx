@@ -1,6 +1,6 @@
 import useGetInfinitePosts from '@/hooks/queries/useGetInfinitePosts';
 import React, {useState} from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
+import {FlatList, StyleSheet} from 'react-native';
 import FeedItem from './FeedItem';
 
 function FeedList() {
