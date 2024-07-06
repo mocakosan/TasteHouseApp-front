@@ -1,4 +1,9 @@
-import {colors, feedNavigations, mainNavigations} from '@/constants';
+import {
+  colors,
+  feedNavigations,
+  feedTabNavigations,
+  mainNavigations,
+} from '@/constants';
 import useGetPost from '@/hooks/queries/useGetPost';
 import React from 'react';
 import {
@@ -12,16 +17,15 @@ import {
   Text,
   View,
 } from 'react-native';
-
 import Octicons from 'react-native-vector-icons/Octicons';
 import {getDateWithSeparator} from '@/utils';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import CustomMarker from '../common/customMarker';
 import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import {DrawerNavigationProp} from '@react-navigation/drawer';
 import {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
+import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import {FeedTabParamList} from '@/navigations/tab/FeedTabNavigator';
 
 interface MarkerModalProps {
   markerId: number | null;
@@ -31,7 +35,7 @@ interface MarkerModalProps {
 
 type Navigation = CompositeNavigationProp<
   DrawerNavigationProp<MainDrawerParamList>,
-  StackNavigationProp<FeedStackParamList>
+  BottomTabNavigationProp<FeedTabParamList>
 >;
 
 function MarkerModal({markerId, isVisible, hide}: MarkerModalProps) {
@@ -43,12 +47,16 @@ function MarkerModal({markerId, isVisible, hide}: MarkerModalProps) {
 
   const handlePressModal = () => {
     navigation.navigate(mainNavigations.FEED, {
-      screen: feedNavigations.FEED_DETAIL,
+      screen: feedTabNavigations.FEED_HOME,
       params: {
-        id: post.id,
+        screen: feedNavigations.FEED_DETAIL,
+        params: {
+          id: post.id,
+        },
+        initial: false,
       },
-      initial: false,
     });
+    hide();
   };
   return (
     <Modal visible={isVisible} transparent={true} animationType="slide">
