@@ -1,18 +1,26 @@
 import {colors} from '@/constants';
 import React from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {FlatList, Pressable, StyleSheet, Text, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import DayOfWeeks from './DayOfWeeks';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {MonthYear} from '@/utils';
+import {MonthYear, isSameAsCurrentDate} from '@/utils';
+import DateBox from './DateBox';
 
 interface CalendarProps {
   monthYear: MonthYear;
+  selectedDate: number;
+  onPressDate: (date: number) => void;
   onChangeMonth: (increment: number) => void;
 }
 
-function Calendar({monthYear, onChangeMonth}: CalendarProps) {
-  const {month, year} = monthYear;
+function Calendar({
+  monthYear,
+  selectedDate,
+  onPressDate,
+  onChangeMonth,
+}: CalendarProps) {
+  const {month, year, lastDate, firstDOW} = monthYear;
   return (
     <>
       <View style={styles.headerContainer}>
@@ -38,6 +46,24 @@ function Calendar({monthYear, onChangeMonth}: CalendarProps) {
         </Pressable>
       </View>
       <DayOfWeeks />
+      <View style={styles.bodyContainer}>
+        <FlatList
+          data={Array.from({length: lastDate + firstDOW}, (_, i) => ({
+            id: i,
+            date: i - firstDOW + 1,
+          }))}
+          renderItem={({item}) => (
+            <DateBox
+              date={item.date}
+              isToday={isSameAsCurrentDate(year, month, item.date)}
+              selectedDate={selectedDate}
+              onPressDate={onPressDate}
+            />
+          )}
+          keyExtractor={item => String(item.id)}
+          numColumns={7}
+        />
+      </View>
     </>
   );
 }
@@ -62,6 +88,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '500',
     color: colors.BLACK,
+  },
+  bodyContainer: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: colors.GRAY_300,
+    backgroundColor: colors.GRAY_100,
   },
 });
 
