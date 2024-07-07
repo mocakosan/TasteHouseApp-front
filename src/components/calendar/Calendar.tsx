@@ -12,6 +12,7 @@ interface CalendarProps {
   selectedDate: number;
   onPressDate: (date: number) => void;
   onChangeMonth: (increment: number) => void;
+  schedules: Record<number, T>;
 }
 
 function Calendar({
@@ -19,6 +20,7 @@ function Calendar({
   selectedDate,
   onPressDate,
   onChangeMonth,
+  schedules,
 }: CalendarProps) {
   const {month, year, lastDate, firstDOW} = monthYear;
   return (
@@ -58,6 +60,7 @@ function Calendar({
               isToday={isSameAsCurrentDate(year, month, item.date)}
               selectedDate={selectedDate}
               onPressDate={onPressDate}
+              hasSchedule={Boolean(schedules[item.date])}
             />
           )}
           keyExtractor={item => String(item.id)}
