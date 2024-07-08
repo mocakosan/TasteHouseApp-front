@@ -1,4 +1,5 @@
 import SearchInput from '@/components/common/SearchInput';
+import SearchRegionResult from '@/components/map/SearchRegionResult';
 import useUserLocation from '@/hooks/queries/useUserLocation';
 import useSearchLocation from '@/hooks/useSearchLocation';
 import React, {useState} from 'react';
@@ -7,7 +8,8 @@ import {Keyboard, StyleSheet, View} from 'react-native';
 const SearchLocationScreen = () => {
   const [keyword, setKeyword] = useState<string>('');
   const {userLocation} = useUserLocation();
-  const {regionInfo} = useSearchLocation(keyword, userLocation);
+  const {regionInfo, pageParam, fetchNextPage, fetchPrevPage, hasNextPage} =
+    useSearchLocation(keyword, userLocation);
 
   const handleChangeKeyword = (text: string) => {
     setKeyword(text);
@@ -22,6 +24,7 @@ const SearchLocationScreen = () => {
         onSubmit={() => Keyboard.dismiss()}
         placeholder="검색할 장소를 입력하세요."
       />
+      <SearchRegionResult regionInfo={regionInfo} />
     </View>
   );
 };
