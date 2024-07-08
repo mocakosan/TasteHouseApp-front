@@ -3,7 +3,7 @@ import EventList from '@/components/calendar/EventList';
 import {colors} from '@/constants';
 import useGetCalendarPosts from '@/hooks/queries/useGetCalendarPost';
 import {getMonthYearDetails, getNewMonthYear} from '@/utils';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 
 function CalendarHomeScreen() {
@@ -15,6 +15,16 @@ function CalendarHomeScreen() {
     isPending,
     isError,
   } = useGetCalendarPosts(monthYear.year, monthYear.month);
+
+  const moveToToday = () => {
+    //선택된 날짜를 현재날짜의 Date로 바꿔줌
+    setSelectedDate(new Date().getDate());
+    setMonthYear(getMonthYearDetails(new Date()));
+  };
+
+  useEffect(() => {
+    moveToToday();
+  }, []);
 
   if (isPending || isError) {
     return <></>;
@@ -36,6 +46,7 @@ function CalendarHomeScreen() {
         onChangeMonth={handleUpdateMonth}
         selectedDate={selectedDate}
         onPressDate={handlePressDate}
+        moveToToday={moveToToday}
       />
       {/** EventList는 날짜를 클릭하면 달력 밑에 그날 갔던 피드를 보여준다 */}
       <EventList posts={posts[selectedDate]} />
