@@ -5,6 +5,8 @@ import {validateSignup} from '@/utils';
 import useAuth from '@/hooks/queries/useAuth';
 import InputField from '@/components/common/InputField';
 import CustomButton from '@/components/common/customButton';
+import {errorMessages} from '@/constants';
+import Toast from 'react-native-toast-message';
 
 function SignUpScreen() {
   const passwordRef = useRef<TextInput | null>(null);
@@ -20,6 +22,13 @@ function SignUpScreen() {
       {email, password},
       {
         onSuccess: () => loginMutation.mutate({email, password}),
+        onError: error =>
+          Toast.show({
+            type: 'error',
+            text1: error.response?.data.message || errorMessages.UNEXPECT_ERROR,
+            position: 'bottom',
+            visibilityTime: 2000,
+          }),
       },
     );
   };

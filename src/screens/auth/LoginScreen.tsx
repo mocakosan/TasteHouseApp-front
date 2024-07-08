@@ -5,6 +5,8 @@ import {validateLogin} from '@/utils';
 import useAuth from '@/hooks/queries/useAuth';
 import InputField from '@/components/common/InputField';
 import CustomButton from '@/components/common/customButton';
+import {errorMessages} from '@/constants';
+import Toast from 'react-native-toast-message';
 
 interface LoginScreenProps {}
 
@@ -25,8 +27,15 @@ function LoginScreen({}: LoginScreenProps) {
   });
 
   const handleSubmit = () => {
-    loginMutation.mutate(login.values);
-    console.log('login.values', login.values);
+    loginMutation.mutate(login.values, {
+      onError: error =>
+        Toast.show({
+          type: 'error',
+          text1: error.response?.data.message || errorMessages.UNEXPECT_ERROR,
+          position: 'bottom',
+          visibilityTime: 2000,
+        }),
+    });
   };
   return (
     <SafeAreaView style={styles.container}>
