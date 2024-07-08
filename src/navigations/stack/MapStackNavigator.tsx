@@ -4,10 +4,12 @@ import {mapNavigations} from '@/constants';
 import MapHomeScreen from '@/screens/map/MapHomeScreen';
 import AddPostScreen from '@/screens/map/AddPostScreen';
 import {LatLng} from 'react-native-maps';
+import SearchLocationScreen from '@/screens/map/SearchLocationScreen';
 
 export type MapStackParamList = {
   [mapNavigations.MAP_HOME]: undefined;
   [mapNavigations.ADD_POST]: {location: LatLng};
+  [mapNavigations.SEARCH_LOCATION]: undefined;
 };
 
 const Stack = createStackNavigator<MapStackParamList>();
@@ -42,6 +44,15 @@ function MapStackNavigator() {
         options={{
           headerTitle: '장소 추가',
           // headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name={mapNavigations.SEARCH_LOCATION}
+        component={SearchLocationScreen}
+        options={{
+          //페이지자체를 모달처럼 만들수있는 기능
+          presentation: 'modal',
+          headerTitle: '장소 검색',
         }}
       />
     </Stack.Navigator>
