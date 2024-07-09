@@ -58,6 +58,7 @@ function useSearchLocation(keyword: string, location: LatLng) {
             },
           },
         );
+        //다음페이지가 있는지 없는지 판단
         setHasNextPage(!data.meta.is_end);
         setRegionInfo(data.documents);
       } catch (error) {
