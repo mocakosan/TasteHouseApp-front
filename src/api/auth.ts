@@ -49,7 +49,7 @@ const appleLogin = async (
   body: RequestAppleIdentity,
 ): Promise<ResponseToken> => {
   const {data} = await axiosInstance.post('/auth/oauth/apple', body);
-
+  console.log('apple', data);
   return data;
 };
 

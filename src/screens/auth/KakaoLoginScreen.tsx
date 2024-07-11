@@ -56,8 +56,8 @@ function KakaoLoginScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {isLoading && (
-        <View style={styles.kakaoLoadingContiner}>
+      {(isLoading || isChangeNavigate) && (
+        <View style={styles.kakaoLoadingContainer}>
           <ActivityIndicator size={'small'} color={colors.BLACK} />
         </View>
       )}
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  kakaoLoadingContiner: {
+  kakaoLoadingContainer: {
     backgroundColor: colors.WHITE,
     height: Dimensions.get('window').height,
     alignItems: 'center',

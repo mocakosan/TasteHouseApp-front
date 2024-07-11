@@ -39,7 +39,7 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
       if (identityToken) {
         appleLoginMutation.mutate({
           identityToken,
-          appId: 'org.reactjs.native.example.MatzipApp',
+          appId: 'org.reactjs.native.example.TasteHouseApp',
           nickname: fullName?.givenName ?? null,
         });
       }
