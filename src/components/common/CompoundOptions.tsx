@@ -98,7 +98,7 @@ function Divider() {
   return <View style={styles.border} />;
 }
 
-export const CompoundOption = Object.assign(OptionMain, {
+export const CompoundOptions = Object.assign(OptionMain, {
   Container,
   Button,
   Title,
