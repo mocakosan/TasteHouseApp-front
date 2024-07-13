@@ -1,7 +1,10 @@
 import {MutationFunction, useMutation, useQuery} from '@tanstack/react-query';
 import {
+  ResponseProfile,
   ResponseToken,
   appleLogin,
+  deleteAccount,
+  editCategory,
   editProfile,
   getAccessToken,
   getProfile,
@@ -16,6 +19,7 @@ import {removeHeader, setHeader} from '@/utils/header';
 import {useEffect} from 'react';
 import queryClient from '@/api/queryClient';
 import {numbers, queryKeys, storageKeys} from '@/constants';
+import {Category, Profile} from '@/types';
 
 function useSignup(mutaionOptions?: UseMutationCustomOptions) {
   return useMutation({
@@ -87,11 +91,38 @@ function useGetRefreshToken() {
   return {isSuccess, isError};
 }
 
-function useGetProfile(queryOptions?: UseQueryCustomOptions) {
+type ResponseSelectProfile = {categories: Category} & Profile;
+
+const transformProfileCategory = (
+  data: ResponseProfile,
+): ResponseSelectProfile => {
+  const {BLUE, GREEN, PURPLE, RED, YELLOW, ...rest} = data;
+  const categories = {BLUE, GREEN, PURPLE, RED, YELLOW};
+
+  return {categories, ...rest};
+};
+
+function useGetProfile(
+  queryOptions?: UseQueryCustomOptions<ResponseProfile, ResponseSelectProfile>,
+) {
   return useQuery({
     queryKey: [queryKeys.AUTH, queryKeys.GET_PROFILE],
     queryFn: getProfile,
+    select: transformProfileCategory,
     ...queryOptions,
+  });
+}
+
+function useMutateCategory(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: editCategory,
+    onSuccess: newProfile => {
+      queryClient.setQueryData(
+        [queryKeys.AUTH, queryKeys.GET_PROFILE],
+        newProfile,
+      );
+    },
+    ...mutationOptions,
   });
 }
 
@@ -120,6 +151,13 @@ function useLogout(mutaionOptions?: UseMutationCustomOptions) {
   });
 }
 
+function useMutateDeleteAccount(mutationOptions?: UseMutationCustomOptions) {
+  return useMutation({
+    mutationFn: deleteAccount,
+    ...mutationOptions,
+  });
+}
+
 function useAuth() {
   const signupMutation = useSignup();
   const refreshTokenQuery = useGetRefreshToken();
@@ -132,6 +170,10 @@ function useAuth() {
   const appleLoginMutation = useAppleLogin();
   const logoutMutation = useLogout();
   const profileMutation = useUpdateProfile();
+  const deleteAccountMutation = useMutateDeleteAccount({
+    onSuccess: () => logoutMutation.mutate(null),
+  });
+  const categoryMutation = useMutateCategory();
 
   return {
     signupMutation,
@@ -142,6 +184,8 @@ function useAuth() {
     kakaoLoginMutation,
     appleLoginMutation,
     profileMutation,
+    deleteAccountMutation,
+    categoryMutation,
   };
 }
 

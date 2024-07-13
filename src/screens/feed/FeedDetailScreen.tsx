@@ -7,7 +7,9 @@ import {
   feedNavigations,
   mainNavigations,
   mapNavigations,
+  settingNavigations,
 } from '@/constants';
+import useAuth from '@/hooks/queries/useAuth';
 import useGetPost from '@/hooks/queries/useGetPost';
 import useMutateFavoritePost from '@/hooks/queries/useMutateFavoritePost';
 import useModal from '@/hooks/useModal';
@@ -48,6 +50,8 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
   const {setMoveLocation} = useLocationStore();
   const {setDetailPost} = useDetailStore();
   const detailOption = useModal();
+  const {getProfileQuery} = useAuth();
+  const {categories} = getProfileQuery.data || {};
 
   useEffect(() => {
     post && setDetailPost(post);
@@ -64,8 +68,16 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
       screen: mapNavigations.MAP_HOME,
     });
   };
+
   const handlePressFavorite = () => {
     favoriteMutation.mutate(post.id);
+  };
+
+  const handlePressCategory = () => {
+    navigation.navigate(mainNavigations.SETTING, {
+      screen: settingNavigations.EDIT_CATEGORY,
+      initial: false,
+    });
   };
 
   return (
@@ -148,6 +160,20 @@ function FeedDetailScreen({route, navigation}: FeedDetailScreenProps) {
                     {backgroundColor: colorHex[post.color]},
                   ]}
                 />
+              </View>
+              <View style={styles.infoColumn}>
+                <Text style={styles.infoColumnKeyText}>카테고리</Text>
+                {categories?.[post.color] ? (
+                  <Text style={styles.infoColumnValueText}>
+                    {categories?.[post.color]}
+                  </Text>
+                ) : (
+                  <Pressable
+                    style={styles.emptyCategoryContainer}
+                    onPress={handlePressCategory}>
+                    <Text style={styles.infoColumnKeyText}>미설정</Text>
+                  </Pressable>
+                )}
               </View>
             </View>
           </View>
@@ -314,6 +340,13 @@ const styles = StyleSheet.create({
   },
   bookmarkPressedContainer: {
     opacity: 0.5,
+  },
+  emptyCategoryContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.GRAY_300,
+    padding: 2,
+    borderRadius: 2,
   },
 });
 

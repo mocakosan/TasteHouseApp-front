@@ -1,5 +1,5 @@
 import React from 'react';
-import {CompoundOption} from '../common/CompoundOptions';
+import {CompoundOptions} from '../common/CompoundOptions';
 import useMutateDeletePost from '@/hooks/queries/useMutateDeletePost';
 import {useNavigation} from '@react-navigation/core';
 import {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
@@ -55,24 +55,24 @@ function FeedDetailOption({isVisible, hideOption}: FeedDetailOptionProps) {
     hideOption();
   };
   return (
-    <CompoundOption isVisible={isVisible} hideOption={hideOption}>
-      <CompoundOption.Background>
-        <CompoundOption.Container>
-          <CompoundOption.Button isDanger onPress={handleDeletePost}>
+    <CompoundOptions isVisible={isVisible} hideOption={hideOption}>
+      <CompoundOptions.Background>
+        <CompoundOptions.Container>
+          <CompoundOptions.Button isDanger onPress={handleDeletePost}>
             삭제하기
-          </CompoundOption.Button>
-          <CompoundOption.Divider />
-          <CompoundOption.Button onPress={handleEditPost}>
+          </CompoundOptions.Button>
+          <CompoundOptions.Divider />
+          <CompoundOptions.Button onPress={handleEditPost}>
             수정하기
-          </CompoundOption.Button>
-        </CompoundOption.Container>
-        <CompoundOption.Container>
-          <CompoundOption.Button onPress={hideOption}>
+          </CompoundOptions.Button>
+        </CompoundOptions.Container>
+        <CompoundOptions.Container>
+          <CompoundOptions.Button onPress={hideOption}>
             취소
-          </CompoundOption.Button>
-        </CompoundOption.Container>
-      </CompoundOption.Background>
-    </CompoundOption>
+          </CompoundOptions.Button>
+        </CompoundOptions.Container>
+      </CompoundOptions.Background>
+    </CompoundOptions>
   );
 }
 

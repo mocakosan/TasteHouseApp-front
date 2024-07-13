@@ -63,4 +63,22 @@ function validateEditProfile(values: {nickname: string}) {
   return errors;
 }
 
-export {validateLogin, validateSignup, validateAddPost, validateEditProfile};
+function validateCategory(values: Category) {
+  const errors = {
+    RED: '',
+    GREEN: '',
+    YELLOW: '',
+    BLUE: '',
+    PURPLE: '',
+  };
+
+  return errors;
+}
+
+export {
+  validateLogin,
+  validateSignup,
+  validateAddPost,
+  validateEditProfile,
+  validateCategory,
+};
