@@ -2,8 +2,12 @@ import useGetInfinitePosts from '@/hooks/queries/useGetInfinitePosts';
 import React, {useState} from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 import FeedItem from './FeedItem';
+import useThemeStore from '@/store/useThemeStore';
+import {ThemeMode} from '@/types';
 
 function FeedList() {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
   const {
     data: posts,
     fetchNextPage,
@@ -41,10 +45,11 @@ function FeedList() {
   );
 }
 
-const styles = StyleSheet.create({
-  contentContainer: {
-    padding: 15,
-  },
-});
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
+    contentContainer: {
+      padding: 15,
+    },
+  });
 
 export default FeedList;

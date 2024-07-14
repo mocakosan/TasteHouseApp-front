@@ -1,4 +1,6 @@
 import {colors} from '@/constants';
+import useThemeStore from '@/store/useThemeStore';
+import {ThemeMode} from '@/types';
 import React, {ReactNode} from 'react';
 import {
   Pressable,
@@ -33,6 +35,9 @@ function customButton({
   icon = null,
   ...props
 }: customButtonProps) {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
   return (
     <Pressable
       disabled={inValid}
@@ -53,56 +58,57 @@ function customButton({
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    borderRadius: 3,
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  inValid: {
-    opacity: 0.5,
-  },
-  filled: {
-    backgroundColor: colors.PINK_700,
-  },
-  outlined: {
-    borderColor: colors.PINK_700,
-    borderWidth: 1,
-  },
-  filledPressed: {
-    backgroundColor: colors.PINK_500,
-  },
-  outlinedPressed: {
-    borderColor: colors.PINK_700,
-    borderWidth: 1,
-    opacity: 0.5,
-  },
-  large: {
-    width: '100%',
-    paddingVertical: deviceHeight > 700 ? 15 : 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    gap: 5,
-  },
-  medium: {
-    width: '50%',
-    paddingVertical: deviceHeight > 700 ? 12 : 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    gap: 5,
-  },
-  text: {
-    fontSize: 16,
-    fontWeight: 700,
-  },
-  filledText: {
-    color: colors.WHITE,
-  },
-  outlinedText: {
-    color: colors.PINK_700,
-  },
-});
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
+    container: {
+      borderRadius: 3,
+      justifyContent: 'center',
+      flexDirection: 'row',
+    },
+    inValid: {
+      opacity: 0.5,
+    },
+    filled: {
+      backgroundColor: colors[theme].PINK_700,
+    },
+    outlined: {
+      borderColor: colors[theme].PINK_700,
+      borderWidth: 1,
+    },
+    filledPressed: {
+      backgroundColor: colors[theme].PINK_500,
+    },
+    outlinedPressed: {
+      borderColor: colors[theme].PINK_700,
+      borderWidth: 1,
+      opacity: 0.5,
+    },
+    large: {
+      width: '100%',
+      paddingVertical: deviceHeight > 700 ? 15 : 10,
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'row',
+      gap: 5,
+    },
+    medium: {
+      width: '50%',
+      paddingVertical: deviceHeight > 700 ? 12 : 8,
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'row',
+      gap: 5,
+    },
+    text: {
+      fontSize: 16,
+      fontWeight: 700,
+    },
+    filledText: {
+      color: colors[theme].WHITE,
+    },
+    outlinedText: {
+      color: colors[theme].PINK_700,
+    },
+  });
 
 export default customButton;

@@ -20,6 +20,8 @@ import appleAuth, {
 } from '@invertase/react-native-apple-authentication';
 import Toast from 'react-native-toast-message';
 import useAuth from '@/hooks/queries/useAuth';
+import useThemeStore from '@/store/useThemeStore';
+import {ThemeMode} from '@/types';
 
 type AuthHomeScreenProps = StackScreenProps<
   AuthStackParamList,
@@ -27,6 +29,8 @@ type AuthHomeScreenProps = StackScreenProps<
 >;
 
 function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
   const {appleLoginMutation} = useAuth();
 
   const handlePressAppleLogin = async () => {
@@ -96,43 +100,44 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginHorizontal: 30,
-    marginVertical: 30,
-    alignItems: 'center',
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-  },
-  imageContainer: {
-    flex: 1.5,
-    width: Dimensions.get('screen').width / 2,
-  },
-  buttonContainer: {
-    flex: 1,
-    gap: 10,
-    alignItems: 'center',
-  },
-  kakaoButtonContainer: {
-    backgroundColor: '#fee503',
-  },
-  kakaoButtonText: {
-    color: '#181600',
-  },
-  emailText: {
-    textDecorationLine: 'underline',
-    fontWeight: '500',
-    padding: 10,
-    color: colors.BLACK,
-  },
-  appleButton: {
-    width: Dimensions.get('screen').width - 60,
-    height: 45,
-    paddingVertical: 25,
-  },
-});
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      marginHorizontal: 30,
+      marginVertical: 30,
+      alignItems: 'center',
+    },
+    image: {
+      width: '100%',
+      height: '100%',
+    },
+    imageContainer: {
+      flex: 1.5,
+      width: Dimensions.get('screen').width / 2,
+    },
+    buttonContainer: {
+      flex: 1,
+      gap: 10,
+      alignItems: 'center',
+    },
+    kakaoButtonContainer: {
+      backgroundColor: '#fee503',
+    },
+    kakaoButtonText: {
+      color: '#181600',
+    },
+    emailText: {
+      textDecorationLine: 'underline',
+      fontWeight: '500',
+      padding: 10,
+      color: colors[theme].BLACK,
+    },
+    appleButton: {
+      width: Dimensions.get('screen').width - 60,
+      height: 45,
+      paddingVertical: 25,
+    },
+  });
 
 export default AuthHomeScreen;

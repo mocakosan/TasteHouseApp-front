@@ -7,6 +7,7 @@ import {DrawerNavigationProp} from '@react-navigation/drawer';
 import {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import HeaderButton from '../common/HeaderButton';
+import useThemeStore from '@/store/useThemeStore';
 
 type FeedHomeHeaderLeftProps = CompositeNavigationProp<
   StackNavigationProp<FeedStackParamList>,
@@ -14,9 +15,11 @@ type FeedHomeHeaderLeftProps = CompositeNavigationProp<
 >;
 
 function FeedHomeHeaderLeft(navigation: FeedHomeHeaderLeftProps) {
+  const {theme} = useThemeStore();
+
   return (
     <HeaderButton
-      icon={<Ionicons name="menu" color={colors.BLACK} size={25} />}
+      icon={<Ionicons name="menu" color={colors[theme].BLACK} size={25} />}
       onPress={() => navigation.openDrawer()}
     />
   );

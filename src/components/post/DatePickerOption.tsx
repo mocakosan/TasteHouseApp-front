@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import {colors} from '@/constants';
+import useThemeStore from '@/store/useThemeStore';
+import {ThemeMode} from '@/types';
 
 interface DatePickerOptionProps {
   isVisible: boolean;
@@ -23,6 +25,8 @@ function DatePickerOption({
   onChangeDate,
   onConfirmDate,
 }: DatePickerOptionProps) {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
   return (
     <Modal visible={isVisible} transparent={true} animationType={'slide'}>
       <SafeAreaView style={[styles.optionBackground, styles.dimmed]}>
@@ -47,36 +51,37 @@ function DatePickerOption({
   );
 }
 
-const styles = StyleSheet.create({
-  pickerContainer: {
-    alignItems: 'center',
-  },
-  optionBackground: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
-  dimmed: {
-    backgroundColor: 'rgba(0 0 0 / 0.5)',
-  },
-  optionContainer: {
-    borderRadius: 15,
-    marginHorizontal: 10,
-    marginBottom: 10,
-    backgroundColor: colors.GRAY_100,
-    overflow: 'hidden',
-  },
-  optionButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 50,
-    gap: 5,
-  },
-  optionText: {
-    fontSize: 17,
-    color: colors.BLUE_500,
-    fontWeight: '500',
-  },
-});
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
+    pickerContainer: {
+      alignItems: 'center',
+    },
+    optionBackground: {
+      flex: 1,
+      justifyContent: 'flex-end',
+    },
+    dimmed: {
+      backgroundColor: 'rgba(0 0 0 / 0.5)',
+    },
+    optionContainer: {
+      borderRadius: 15,
+      marginHorizontal: 10,
+      marginBottom: 10,
+      backgroundColor: colors[theme].GRAY_100,
+      overflow: 'hidden',
+    },
+    optionButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: 50,
+      gap: 5,
+    },
+    optionText: {
+      fontSize: 17,
+      color: colors[theme].BLUE_500,
+      fontWeight: '500',
+    },
+  });
 
 export default DatePickerOption;

@@ -21,7 +21,7 @@ import useForm from '@/hooks/useForm';
 import useGetAddress from '@/hooks/useGetAddress';
 import useImagePicker from '@/hooks/useImagePicker';
 import useModal from '@/hooks/useModal';
-import {MarkerColor} from '@/types';
+import {MarkerColor, ThemeMode} from '@/types';
 import AddPostHeaderRight from './AddPostHeaderRight';
 import {LatLng} from 'react-native-maps';
 import {useNavigation} from '@react-navigation/native';
@@ -29,6 +29,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {FeedStackParamList} from '@/navigations/stack/FeedStackNavigator';
 import useDetailStore from '@/store/useDetailPostStore';
 import useMutateUpdatePost from '@/hooks/queries/useMutateUpdatePost';
+import useThemeStore from '@/store/useThemeStore';
 
 interface PostFormProps {
   isEdit?: boolean;
@@ -36,6 +37,8 @@ interface PostFormProps {
 }
 
 function PostForm({location, isEdit = false}: PostFormProps) {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
   const navigation = useNavigation<StackNavigationProp<FeedStackParamList>>();
   const discriptionRef = useRef<TextInput | null>(null);
   const createPost = useMutateCreatePost();
@@ -122,7 +125,11 @@ function PostForm({location, isEdit = false}: PostFormProps) {
             value={address}
             disabled
             icon={
-              <Octicons name="location" size={16} color={colors.GRAY_500} />
+              <Octicons
+                name="location"
+                size={16}
+                color={colors[theme].GRAY_500}
+              />
             }
           />
           <CustomButton
@@ -182,17 +189,18 @@ function PostForm({location, isEdit = false}: PostFormProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {flex: 1},
-  contentContainer: {
-    flex: 1,
-    padding: 20,
-    marginBottom: 10,
-  },
-  inputContainer: {gap: 20, marginBottom: 20},
-  imagesViewer: {
-    flexDirection: 'row',
-  },
-});
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
+    container: {flex: 1},
+    contentContainer: {
+      flex: 1,
+      padding: 20,
+      marginBottom: 10,
+    },
+    inputContainer: {gap: 20, marginBottom: 20},
+    imagesViewer: {
+      flexDirection: 'row',
+    },
+  });
 
 export default PostForm;

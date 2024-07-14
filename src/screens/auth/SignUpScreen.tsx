@@ -7,8 +7,12 @@ import InputField from '@/components/common/InputField';
 import CustomButton from '@/components/common/customButton';
 import {errorMessages} from '@/constants';
 import Toast from 'react-native-toast-message';
+import useThemeStore from '@/store/useThemeStore';
+import {ThemeMode} from '@/types';
 
 function SignUpScreen() {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
   const passwordRef = useRef<TextInput | null>(null);
   const {signupMutation, loginMutation} = useAuth();
   const passwordConfirmRef = useRef<TextInput | null>(null);
@@ -78,15 +82,16 @@ function SignUpScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    margin: 30,
-  },
-  inputContainer: {
-    gap: 20,
-    marginBottom: 30,
-  },
-});
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      margin: 30,
+    },
+    inputContainer: {
+      gap: 20,
+      marginBottom: 30,
+    },
+  });
 
 export default SignUpScreen;

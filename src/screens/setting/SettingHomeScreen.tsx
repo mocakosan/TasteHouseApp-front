@@ -8,10 +8,17 @@ import {colors, settingNavigations} from '@/constants';
 import {StackScreenProps} from '@react-navigation/stack';
 import {SettingStackParamList} from '@/navigations/stack/SettingStackNavigator';
 import useAuth from '@/hooks/queries/useAuth';
+import useModal from '@/hooks/useModal';
+import DarkModeOption from '@/components/setting/DarkModeOption';
+import useThemeStore from '@/store/useThemeStore';
+import {ThemeMode} from '@/types';
 
 type SettingHomeScreenProps = StackScreenProps<SettingStackParamList>;
 
 function SettingHomeScreen({navigation}: SettingHomeScreenProps) {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
+  const darkModeOption = useModal();
   const {logoutMutation} = useAuth();
 
   const handlePressEditProfile = () => {
@@ -35,25 +42,37 @@ function SettingHomeScreen({navigation}: SettingHomeScreenProps) {
           title="마커 카테고리 설정"
           onPress={handlePressEditCategory}
         />
+        <SettingItem title="다크 모드" onPress={darkModeOption.show} />
         <View style={styles.space} />
         <SettingItem
           title="로그아웃"
           onPress={handlePressLogout}
-          color={colors.RED_500}
-          icon={<Octicons name={'sign-out'} color={colors.RED_500} size={16} />}
+          color={colors[theme].RED_500}
+          icon={
+            <Octicons
+              name={'sign-out'}
+              color={colors[theme].RED_500}
+              size={16}
+            />
+          }
+        />
+        <DarkModeOption
+          isVisible={darkModeOption.isVisible}
+          hideOption={darkModeOption.hide}
         />
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  space: {
-    height: 30,
-  },
-});
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    space: {
+      height: 30,
+    },
+  });
 
 export default SettingHomeScreen;

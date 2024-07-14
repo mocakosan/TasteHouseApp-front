@@ -7,6 +7,8 @@ import {
 } from '@/constants';
 import {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import {FeedTabParamList} from '@/navigations/tab/FeedTabNavigator';
+import useThemeStore from '@/store/useThemeStore';
+import {ThemeMode} from '@/types';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {DrawerNavigationProp} from '@react-navigation/drawer';
 import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
@@ -24,6 +26,8 @@ type Navigation = CompositeNavigationProp<
 >;
 
 function EventList({posts}: EventLIstProps) {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
   const navigation = useNavigation<Navigation>();
   const insets = useSafeAreaInsets();
 
@@ -62,36 +66,37 @@ function EventList({posts}: EventLIstProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.WHITE,
-    padding: 20,
-  },
-  innerContainer: {
-    gap: 20,
-  },
-  itemContainer: {
-    flexDirection: 'row',
-  },
-  itemHeader: {
-    backgroundColor: colors.PINK_700,
-    width: 6,
-    height: 50,
-    marginRight: 8,
-    borderRadius: 20,
-  },
-  infoContainer: {
-    justifyContent: 'space-evenly',
-  },
-  addressText: {
-    color: colors.GRAY_500,
-    fontSize: 13,
-  },
-  titleText: {
-    color: colors.BLACK,
-    fontSize: 16,
-    fontWeight: '600',
-  },
-});
+const styling = (theme: ThemeMode) =>
+  StyleSheet.create({
+    container: {
+      backgroundColor: colors[theme].WHITE,
+      padding: 20,
+    },
+    innerContainer: {
+      gap: 20,
+    },
+    itemContainer: {
+      flexDirection: 'row',
+    },
+    itemHeader: {
+      backgroundColor: colors[theme].PINK_700,
+      width: 6,
+      height: 50,
+      marginRight: 8,
+      borderRadius: 20,
+    },
+    infoContainer: {
+      justifyContent: 'space-evenly',
+    },
+    addressText: {
+      color: colors[theme].GRAY_500,
+      fontSize: 13,
+    },
+    titleText: {
+      color: colors[theme].BLACK,
+      fontSize: 16,
+      fontWeight: '600',
+    },
+  });
 
 export default EventList;

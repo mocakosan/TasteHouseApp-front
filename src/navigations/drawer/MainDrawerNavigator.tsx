@@ -11,6 +11,7 @@ import FeedHomeHeaderLeft from '@/components/feed/FeedHomeHeaderLeft';
 import SettingStackNavigator, {
   SettingStackParamList,
 } from '../stack/SettingStackNavigator';
+import useThemeStore from '@/store/useThemeStore';
 
 export type MainDrawerParamList = {
   [mainNavigations.HOME]: NavigatorScreenParams<MapStackParamList>;
@@ -22,6 +23,8 @@ export type MainDrawerParamList = {
 const Drawer = createDrawerNavigator<MainDrawerParamList>();
 
 function DrawerIcons(route: RouteProp<MainDrawerParamList>, focused: boolean) {
+  const {theme} = useThemeStore();
+
   let iconName = '';
 
   switch (route.name) {
@@ -47,11 +50,12 @@ function DrawerIcons(route: RouteProp<MainDrawerParamList>, focused: boolean) {
     <MaterialIcons
       name={iconName}
       size={18}
-      color={focused ? colors.BLACK : colors.GRAY_500}
+      color={focused ? colors[theme].BLACK : colors[theme].GRAY_500}
     />
   );
 }
 function MainDrawerNavigator() {
+  const {theme} = useThemeStore();
   return (
     <Drawer.Navigator
       drawerContent={CustomDrawerContent}
@@ -61,12 +65,12 @@ function MainDrawerNavigator() {
         drawerStyle: {
           // 드로우 네이게이션바 스타일
           width: Dimensions.get('screen').width * 0.6,
-          backgroundColor: colors.WHITE,
+          backgroundColor: colors[theme].WHITE,
         },
-        drawerActiveTintColor: colors.BLACK, //현재 활성화된 네비게이션 글씨 색상
-        drawerInactiveTintColor: colors.GRAY_500,
-        drawerActiveBackgroundColor: colors.PINK_200, //현재 활성화된 네비게이션 상자 색상
-        drawerInactiveBackgroundColor: colors.GRAY_100, //현재 선택되지 않는 네이게이션 상자 색상
+        drawerActiveTintColor: colors[theme].BLACK, //현재 활성화된 네비게이션 글씨 색상
+        drawerInactiveTintColor: colors[theme].GRAY_500,
+        drawerActiveBackgroundColor: colors[theme].PINK_200, //현재 활성화된 네비게이션 상자 색상
+        drawerInactiveBackgroundColor: colors[theme].GRAY_100, //현재 선택되지 않는 네이게이션 상자 색상
         drawerLabelStyle: {
           fontWeight: '600',
         },
