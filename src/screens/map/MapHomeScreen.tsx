@@ -17,7 +17,6 @@ import {MainDrawerParamList} from '@/navigations/drawer/MainDrawerNavigator';
 import useUserLocation from '@/hooks/queries/useUserLocation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import mapStyle from '@/style/mapStyle';
 import CustomMarker from '@/components/common/customMarker';
 import useGetMarkers from '@/hooks/queries/useGetMarkers';
 import useModal from '@/hooks/useModal';
@@ -28,6 +27,9 @@ import useLocationStore from '@/store/useLocationStore';
 import useThemeStore from '@/store/useThemeStore';
 import {ThemeMode} from '@/types';
 import getMapStyle from '@/style/mapStyle';
+import MapLegend from '@/components/map/MapLegend';
+import useLegendStorage from '@/hooks/useLegendStorage';
+import usePermission from '@/hooks/usePermission';
 
 type Navigation = CompositeNavigationProp<
   StackNavigationProp<MapStackParamList>,
@@ -45,6 +47,8 @@ function MapHomeScreen() {
   const markerModal = useModal();
   const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView();
   const {selectLocation, setSelectLocation} = useLocationStore();
+  const legend = useLegendStorage();
+  usePermission('LOCATION');
 
   const handlePressMarker = (id: number, coordinate: LatLng) => {
     setMarkerId(id);
@@ -147,6 +151,7 @@ function MapHomeScreen() {
         isVisible={markerModal.isVisible}
         hide={markerModal.hide}
       />
+      {legend.isVisible && <MapLegend />}
     </>
   );
 }
