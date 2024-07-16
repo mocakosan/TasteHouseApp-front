@@ -63,7 +63,7 @@ function AuthHomeScreen({navigation}: AuthHomeScreenProps) {
         <Image
           resizeMode="contain"
           style={styles.image}
-          source={require('../../assets/matzip.png')}
+          source={require('../../assets/tastehouse.png')}
         />
       </View>
 
