@@ -8,9 +8,11 @@ import Toast, {
   BaseToastProps,
   ErrorToast,
 } from 'react-native-toast-message';
-import {StatusBar} from 'react-native';
+import {StatusBar, Text, View} from 'react-native';
 import {colors} from '@/constants';
 import useThemeStorage from '@/hooks/useThemeStorage';
+import CodePush from 'react-native-code-push';
+import useCodePush from '@/hooks/useCodePush';
 
 //react-native-toast-message 커스텀
 const toastConfig = {
@@ -42,18 +44,24 @@ const toastConfig = {
 
 function App() {
   const {theme} = useThemeStorage();
-
+  const {hasUpdate, syncProgress} = useCodePush();
   return (
     <QueryClientProvider client={queryClient}>
       <StatusBar
         barStyle={theme === 'light' ? 'dark-content' : 'light-content'}
       />
       <NavigationContainer>
-        <RootNavigator />
+        {hasUpdate ? (
+          <View>
+            <Text>업데이트중...</Text>
+          </View>
+        ) : (
+          <RootNavigator />
+        )}
         <Toast config={toastConfig} />
       </NavigationContainer>
     </QueryClientProvider>
   );
 }
 
-export default App;
+export default CodePush(App);

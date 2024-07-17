@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">TasteHouseApp</string>
+    <string name="appCenterCrashes_whenToSendCrashes" moduleConfig="true" translatable="false">DO_NOT_ASK_JAVASCRIPT</string>
+    <string name="appCenterAnalytics_whenToEnableAnalytics" moduleConfig="true" translatable="false">ALWAYS_SEND</string>
+     <string moduleConfig="true" name="CodePushDeploymentKey">T8mf7la2-76SKACdq3GJH237k897FciGg45oE</string>
 </resources>
